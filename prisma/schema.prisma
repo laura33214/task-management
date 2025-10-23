@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Task model for to-do items
+model Task {
+  id String @id @default(uuid())
+
+  title String @db.VarChar(255)
+
+  description String? @db.Text
+
+  completed Boolean @default(false)
+
+  priority Priority @default(MEDIUM)
+
+  dueDate DateTime?
+
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+
+  /// Indexes for common query patterns
+  @@index([completed])
+  @@index([priority])
+  @@index([dueDate])
+  @@index([createdAt(sort: Desc)])
+  @@index([completed, priority])
+  @@map("tasks")/// Priority levels for task organization
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+
+  @@map("priority")
+}
