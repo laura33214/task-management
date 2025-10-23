@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 import TaskForm from '@/components/tasks/TaskForm';
 import TaskList from '@/components/tasks/TaskList';
-import { trpc } from '@/utils/trpc';
 import { useTaskStore } from '@/store/taskStore';
+import { trpc } from '@/utils/trpc';
 
 export default function TasksPage() {
   const { data, isLoading, isError, error } = trpc.task.getTasks.useQuery();
